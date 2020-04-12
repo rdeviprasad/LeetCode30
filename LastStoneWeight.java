@@ -1,19 +1,18 @@
+/* Solution provided by Kevin Naughton Jr. on Youtube */
 class Solution {
     public int lastStoneWeight(int[] stones) {
-        int n = stones.length;
-        if(n == 1) return stones[n-1];
-        for(int i = 0; i < n; i++) {
-            Arrays.sort(stones);
-            int y = stones[n-1];
-            int x = stones[n-2];
-            if(x == y) {
-                stones[n-1] = 0;
-                stones[n-2] = 0;
-            } else {
-                stones[n-1] = y - x;
-                stones[n-2] = 0;
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
+        for(int s : stones) {
+            heap.add(-s);
+        }
+        while(heap.size() > 1) {
+            int y = - heap.remove();
+            int x = - heap.remove();
+            if(x != y) {
+                heap.add(-(y - x));
             }
         }
-        return stones[n-1];
+        
+        return heap.isEmpty() ? 0 : -heap.remove();
     }
 }
